@@ -56,6 +56,7 @@ export default {
 				'neon-green': 'hsl(var(--neon-green))',
 				'neon-purple': 'hsl(var(--neon-purple))',
 				'neon-blue': 'hsl(var(--neon-blue))',
+				'neon-cyan': 'hsl(var(--neon-cyan))',
 				'dark-bg': 'hsl(var(--dark-bg))',
 				'card-bg': 'hsl(var(--card-bg))',
 				'border-glow': 'hsl(var(--border-glow))',
@@ -118,11 +119,13 @@ export default {
 			backgroundImage: {
 				'gradient-primary': 'var(--gradient-primary)',
 				'gradient-accent': 'var(--gradient-accent)',
-				'gradient-hero': 'var(--gradient-hero)'
+				'gradient-hero': 'var(--gradient-hero)',
+				'gradient-card': 'var(--gradient-card)'
 			},
 			boxShadow: {
 				'glow': 'var(--shadow-glow)',
 				'purple-glow': 'var(--shadow-purple-glow)',
+				'blue-glow': 'var(--shadow-blue-glow)',
 				'card': 'var(--shadow-card)'
 			}
 		}

@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Gaming theme với màu tối và neon accents */
+    /* Gaming theme với màu tối và neon accents đẹp */
     --background: 220 13% 8%;
     --foreground: 210 40% 98%;
 
@@ -18,7 +18,7 @@ All colors MUST be HSL.
     --popover: 220 13% 12%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 142 76% 36%;
+    --primary: 142 76% 45%;
     --primary-foreground: 220 13% 8%;
 
     --secondary: 220 13% 16%;
@@ -27,7 +27,7 @@ All colors MUST be HSL.
     --muted: 220 13% 16%;
     --muted-foreground: 215.4 16.3% 65%;
 
-    --accent: 263 70% 50%;
+    --accent: 263 70% 55%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 84.2% 60.2%;
@@ -37,22 +37,25 @@ All colors MUST be HSL.
     --input: 220 13% 16%;
     --ring: 142 76% 36%;
 
-    /* Gaming-specific colors */
-    --neon-green: 142 76% 36%;
-    --neon-purple: 263 70% 50%;
-    --neon-blue: 217 91% 60%;
+    /* Gaming-specific colors - neon đẹp hơn */
+    --neon-green: 142 76% 45%;
+    --neon-purple: 263 70% 55%;
+    --neon-blue: 217 91% 65%;
+    --neon-cyan: 180 100% 50%;
     --dark-bg: 220 13% 8%;
     --card-bg: 220 13% 12%;
-    --border-glow: 220 13% 20%;
+    --border-glow: 220 13% 25%;
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--neon-green)), hsl(var(--neon-blue)));
-    --gradient-accent: linear-gradient(135deg, hsl(var(--neon-purple)), hsl(var(--primary)));
+    /* Gradients đẹp */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--neon-green)), hsl(var(--neon-cyan)));
+    --gradient-accent: linear-gradient(135deg, hsl(var(--neon-purple)), hsl(var(--neon-blue)));
     --gradient-hero: linear-gradient(135deg, hsl(var(--dark-bg)) 0%, hsl(var(--card-bg)) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(var(--card-bg)), hsl(var(--dark-bg)));
 
-    /* Shadows and glows */
-    --shadow-glow: 0 0 20px hsl(var(--neon-green) / 0.3);
-    --shadow-purple-glow: 0 0 20px hsl(var(--neon-purple) / 0.3);
+    /* Shadows and glows đẹp hơn */
+    --shadow-glow: 0 0 25px hsl(var(--neon-green) / 0.4);
+    --shadow-purple-glow: 0 0 25px hsl(var(--neon-purple) / 0.4);
+    --shadow-blue-glow: 0 0 25px hsl(var(--neon-blue) / 0.4);
     --shadow-card: 0 8px 32px hsl(var(--dark-bg) / 0.8);
 
     --radius: 0.75rem;
