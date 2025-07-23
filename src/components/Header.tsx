@@ -10,7 +10,7 @@ const Header = () => {
           <div className="flex items-center space-x-2">
             <Gamepad2 className="h-8 w-8 text-neon-green" />
             <span className="text-2xl font-bold text-foreground">
-              thuonghan<span className="text-neon-green">IT</span>
+              thuongha<span className="text-neon-green">IT</span>
             </span>
           </div>
 
