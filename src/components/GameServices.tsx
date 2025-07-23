@@ -34,8 +34,8 @@ const GameServices = () => {
     },
     {
       icon: <Crown className="h-8 w-8 text-neon-cyan" />,
-      title: "Boost Rank",
-      description: "Tăng rank nhanh chóng với tỷ lệ thắng cao",
+      title: "Đối Tác",
+      description: "Hợp tác kinh doanh và phát triển cùng nhau",
       features: ["Duo/Solo", "Win rate 90%+", "Tăng rank nhanh", "Giá tốt nhất"],
       price: "Từ 100.000đ",
       badge: "VIP"
@@ -169,7 +169,7 @@ const GameServices = () => {
             >
               {game.popular && (
                 <div className="absolute top-4 right-4 z-10">
-                  <Badge className="bg-neon-green/20 text-neon-green border-neon-green/40 animate-pulse">
+                  <Badge className="bg-neon-green/20 text-neon-green border-neon-green/40">
                     HOT
                   </Badge>
                 </div>

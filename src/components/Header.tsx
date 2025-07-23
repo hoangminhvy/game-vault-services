@@ -10,7 +10,7 @@ const Header = () => {
           <div className="flex items-center space-x-2">
             <Gamepad2 className="h-8 w-8 text-neon-green" />
             <span className="text-2xl font-bold text-foreground">
-              Game<span className="text-neon-green">Vault</span>
+              thuonghan<span className="text-neon-green">IT</span>
             </span>
           </div>
 
@@ -26,7 +26,7 @@ const Header = () => {
               Dịch vụ Cày
             </a>
             <a href="#" className="text-foreground hover:text-neon-green transition-colors">
-              Boost Rank
+              Đối tác
             </a>
             <a href="#" className="text-foreground hover:text-neon-green transition-colors">
               Liên hệ
