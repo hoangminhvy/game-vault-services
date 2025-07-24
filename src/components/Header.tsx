@@ -26,10 +26,10 @@ const Header = () => {
               Dịch vụ Cày
             </a>
             <a href="#" className="text-foreground hover:text-neon-green transition-colors">
-              Đối tác
+              DV miễn phí
             </a>
             <a href="#" className="text-foreground hover:text-neon-green transition-colors">
-              Liên hệ
+              Đối tác
             </a>
           </nav>
 
