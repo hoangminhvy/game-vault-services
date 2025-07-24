@@ -14,13 +14,46 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      dataname: {
+        Row: {
+          email: string | null
+          maphanquyen: number | null
+          matkhau: string
+          taikhoan: string
+          tien: number | null
+          time: string | null
+        }
+        Insert: {
+          email?: string | null
+          maphanquyen?: number | null
+          matkhau: string
+          taikhoan: string
+          tien?: number | null
+          time?: string | null
+        }
+        Update: {
+          email?: string | null
+          maphanquyen?: number | null
+          matkhau?: string
+          taikhoan?: string
+          tien?: number | null
+          time?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      verify_login: {
+        Args: { user_email: string; user_password: string }
+        Returns: {
+          taikhoan: string
+          email: string
+          maphanquyen: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
