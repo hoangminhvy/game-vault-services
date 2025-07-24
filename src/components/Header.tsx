@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Gamepad2, Menu, User } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-dark-bg/90 backdrop-blur-md border-b border-border-glow">
@@ -41,7 +43,21 @@ const Header = () => {
 
           {/* Actions */}
           <div className="flex items-center space-x-4">
-            <Button variant="outline" size="sm" className="hidden sm:flex">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="hidden sm:flex"
+              onClick={() => navigate('/auth')}
+            >
+              <User className="h-4 w-4 mr-2" />
+              Đăng nhập
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="sm:hidden"
+              onClick={() => navigate('/auth')}
+            >
               <User className="h-4 w-4 mr-2" />
               Đăng nhập
             </Button>
@@ -80,7 +96,12 @@ const Header = () => {
               Đối tác
             </a>
             <div className="px-4 py-2">
-              <Button variant="outline" size="sm" className="w-full">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="w-full"
+                onClick={() => navigate('/auth')}
+              >
                 <User className="h-4 w-4 mr-2" />
                 Đăng nhập
               </Button>
