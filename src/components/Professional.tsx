@@ -21,8 +21,8 @@ const Professional = () => {
     },
     {
       icon: <Award className="h-6 w-6 text-neon-purple" />,
-      title: "Chứng nhận chất lượng",
-      description: "ISO 9001:2015 và các chứng chỉ quốc tế"
+      title: "Chứng nhận chất lượng", 
+      description: "cập nhật thường xuyên"
     },
     {
       icon: <Clock className="h-6 w-6 text-neon-cyan" />,
@@ -32,15 +32,15 @@ const Professional = () => {
     {
       icon: <Users className="h-6 w-6 text-neon-blue" />,
       title: "Đội ngũ chuyên nghiệp",
-      description: "Hơn 100 chuyên gia với kinh nghiệm 5+ năm"
+      description: "giả cả tương xứng"
     }
   ];
 
   const stats = [
-    { label: "Khách hàng tin tưởng", value: "50,000+", color: "text-neon-green" },
-    { label: "Dự án hoàn thành", value: "25,000+", color: "text-neon-purple" },
+    { label: "Khách hàng tin tưởng", value: "10,000+", color: "text-neon-green" },
+    { label: "Dự án hoàn thành", value: "100+", color: "text-neon-purple" },
     { label: "Năm kinh nghiệm", value: "8+", color: "text-neon-cyan" },
-    { label: "Đánh giá 5 sao", value: "98%", color: "text-neon-blue" }
+    { label: "đánh giá tích cực", value: "98%", color: "text-neon-blue" }
   ];
 
   return (

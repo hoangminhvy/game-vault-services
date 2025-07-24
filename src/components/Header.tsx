@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Gamepad2, Menu, ShoppingCart, User } from "lucide-react";
+import { Gamepad2, Menu, User } from "lucide-react";
 
 const Header = () => {
   return (
@@ -29,23 +29,20 @@ const Header = () => {
               DV miễn phí
             </a>
             <a href="#" className="text-foreground hover:text-neon-green transition-colors">
+              Nạp tiền
+            </a>
+            <a href="#" className="text-foreground hover:text-neon-green transition-colors">
               Đối tác
             </a>
           </nav>
 
           {/* Actions */}
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="icon">
-              <ShoppingCart className="h-5 w-5" />
-            </Button>
             <Button variant="outline" size="sm">
               <User className="h-4 w-4 mr-2" />
               Đăng nhập
             </Button>
-            <Button variant="gaming" size="sm">
-              Đăng ký
-            </Button>
-            <Button variant="ghost" size="icon" className="md:hidden">
+            <Button variant="ghost" size="icon">
               <Menu className="h-5 w-5" />
             </Button>
           </div>
