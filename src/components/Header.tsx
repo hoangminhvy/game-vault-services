@@ -2,16 +2,43 @@ import { Button } from "@/components/ui/button";
 import { Gamepad2, Menu, User, Wallet, LogOut } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const navigate = useNavigate();
 
+  // Function to refresh user data from database
+  const refreshUserData = async () => {
+    const userData = localStorage.getItem('currentUser');
+    if (userData) {
+      const user = JSON.parse(userData);
+      try {
+        const { data, error } = await supabase.rpc('verify_login', {
+          user_email: user.email,
+          user_password: 'dummy' // We can't verify password here, so we'll fetch by email
+        });
+        
+        if (!error && data && data.length > 0) {
+          const updatedUser = data[0];
+          const newUserData = { ...user, tien: updatedUser.tien };
+          localStorage.setItem('currentUser', JSON.stringify(newUserData));
+          setCurrentUser(newUserData);
+        }
+      } catch (error) {
+        console.error('Error refreshing user data:', error);
+      }
+    }
+  };
+
   useEffect(() => {
     const userData = localStorage.getItem('currentUser');
     if (userData) {
-      setCurrentUser(JSON.parse(userData));
+      const user = JSON.parse(userData);
+      setCurrentUser(user);
+      // Refresh user data from database on page load
+      refreshUserData();
     }
     
     // Listen for storage changes to update user data
