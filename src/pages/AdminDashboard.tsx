@@ -86,6 +86,18 @@ const AdminDashboard = () => {
         return;
       }
 
+      // Update localStorage if the updated user is currently logged in
+      const currentUserData = localStorage.getItem('currentUser');
+      if (currentUserData) {
+        const currentUser = JSON.parse(currentUserData);
+        if (currentUser.taikhoan === editingUser) {
+          const updatedUser = { ...currentUser, ...editForm };
+          localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+          // Trigger update event for Header component
+          window.dispatchEvent(new Event('userDataUpdate'));
+        }
+      }
+
       toast.success('Cập nhật thành công');
       setEditingUser(null);
       setEditForm({});
