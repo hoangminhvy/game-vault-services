@@ -113,6 +113,7 @@ export type Database = {
           taikhoan: string
           email: string
           maphanquyen: number
+          tien: number
         }[]
       }
     }
