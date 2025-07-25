@@ -13,6 +13,24 @@ const Header = () => {
     if (userData) {
       setCurrentUser(JSON.parse(userData));
     }
+    
+    // Listen for storage changes to update user data
+    const handleStorageChange = () => {
+      const userData = localStorage.getItem('currentUser');
+      if (userData) {
+        setCurrentUser(JSON.parse(userData));
+      } else {
+        setCurrentUser(null);
+      }
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('userDataUpdate', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('userDataUpdate', handleStorageChange);
+    };
   }, []);
 
   const handleLogout = () => {
@@ -63,20 +81,41 @@ const Header = () => {
           <div className="flex items-center space-x-4">
             {currentUser ? (
               <>
-                <div className="hidden sm:flex items-center space-x-2">
-                  <span className="text-foreground font-medium">{currentUser.taikhoan}</span>
-                  <Button variant="outline" size="sm">
-                    <Wallet className="h-4 w-4 mr-2" />
-                    {formatCurrency(currentUser.tien)}
-                  </Button>
+                <div className="hidden sm:flex items-center space-x-3">
+                  {/* User info container */}
+                  <div className="flex items-center space-x-3 bg-white/5 border border-white/10 rounded-lg px-3 py-2">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-8 h-8 bg-neon-green rounded-full flex items-center justify-center">
+                        <span className="text-dark-bg font-bold text-sm">
+                          {currentUser.taikhoan?.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                      <span className="text-foreground font-medium">{currentUser.taikhoan}</span>
+                    </div>
+                    <div className="h-4 w-px bg-white/20"></div>
+                    <div className="flex items-center space-x-1">
+                      <Wallet className="h-4 w-4 text-neon-green" />
+                      <span className="text-neon-green font-semibold">
+                        {formatCurrency(currentUser.tien || 0)}
+                      </span>
+                    </div>
+                  </div>
                   <Button variant="ghost" size="sm" onClick={handleLogout}>
                     <LogOut className="h-4 w-4" />
                   </Button>
                 </div>
                 <div className="sm:hidden flex items-center space-x-2">
-                  <span className="text-foreground text-sm">{currentUser.taikhoan}</span>
+                  <div className="flex items-center space-x-2 bg-white/5 border border-white/10 rounded-lg px-2 py-1">
+                    <div className="w-6 h-6 bg-neon-green rounded-full flex items-center justify-center">
+                      <span className="text-dark-bg font-bold text-xs">
+                        {currentUser.taikhoan?.charAt(0).toUpperCase()}
+                      </span>
+                    </div>
+                    <span className="text-foreground text-sm">{currentUser.taikhoan}</span>
+                  </div>
                   <Button variant="outline" size="sm">
-                    <Wallet className="h-4 w-4" />
+                    <Wallet className="h-4 w-4 mr-1" />
+                    <span className="text-xs">{formatCurrency(currentUser.tien || 0)}</span>
                   </Button>
                 </div>
               </>

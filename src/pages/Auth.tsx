@@ -39,6 +39,9 @@ export default function Auth() {
       // Store user data in localStorage
       localStorage.setItem('currentUser', JSON.stringify(userData));
       
+      // Trigger event to update Header component
+      window.dispatchEvent(new Event('userDataUpdate'));
+      
       if (userData.maphanquyen === 3) {
         // Admin needs PIN verification
         navigate('/admin-pin');
