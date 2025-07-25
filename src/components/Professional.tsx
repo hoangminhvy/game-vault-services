@@ -16,23 +16,23 @@ const Professional = () => {
   const features = [
     {
       icon: <Shield className="h-6 w-6 text-neon-green" />,
-      title: "Bảo mật tuyệt đối",
-      description: "Mã hóa thông tin khách hàng với tiêu chuẩn ngân hàng"
+      title: "Uy tín",
+      description: "Đảm bảo uy tín và chất lượng dịch vụ hàng đầu"
     },
     {
-      icon: <Award className="h-6 w-6 text-neon-purple" />,
-      title: "Chứng nhận chất lượng", 
-      description: "cập nhật thường xuyên"
+      icon: <Users className="h-6 w-6 text-neon-purple" />,
+      title: "Tiếp cận khách hàng tiềm năng", 
+      description: "Mở rộng mạng lưới khách hàng hiệu quả"
     },
     {
-      icon: <Clock className="h-6 w-6 text-neon-cyan" />,
-      title: "Hỗ trợ 24/7",
-      description: "Đội ngũ kỹ thuật viên luôn sẵn sàng hỗ trợ"
+      icon: <Headphones className="h-6 w-6 text-neon-cyan" />,
+      title: "Hỗ trợ đa thể loại",
+      description: "Hỗ trợ nhiều loại game và dịch vụ khác nhau"
     },
     {
-      icon: <Users className="h-6 w-6 text-neon-blue" />,
-      title: "Đội ngũ chuyên nghiệp",
-      description: "giả cả tương xứng"
+      icon: <Lock className="h-6 w-6 text-neon-blue" />,
+      title: "Tạo shop acc tự động miễn phí",
+      description: "Hệ thống tự động tạo shop không tốn phí"
     }
   ];
 

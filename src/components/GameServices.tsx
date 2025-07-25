@@ -44,48 +44,52 @@ const GameServices = () => {
 
   const games = [
     {
-      name: "League of Legends",
-      category: "MOBA",
-      accounts: "1,200+",
-      rating: 4.9,
-      trend: "+15%",
-      price: "150K - 2M",
-      features: ["Rank Thách Đấu", "Skin hiếm"],
-      gradient: "from-neon-blue to-neon-cyan",
-      popular: true
-    },
-    {
-      name: "Valorant",
-      category: "FPS",
-      accounts: "800+",
-      rating: 4.8,
-      trend: "+22%",
-      price: "200K - 1.5M",
-      features: ["Rank Radiant", "Skin Phantom"],
-      gradient: "from-red-500 to-pink-400",
-      popular: true
-    },
-    {
-      name: "Genshin Impact",
-      category: "RPG",
-      accounts: "600+",
-      rating: 4.9,
-      trend: "+25%",
-      price: "300K - 5M",
-      features: ["AR 60", "5* C6"],
-      gradient: "from-neon-green to-emerald-400",
-      popular: true
-    },
-    {
       name: "Liên Quân Mobile",
       category: "MOBA Mobile",
       accounts: "2,000+",
-      rating: 4.7,
+      rating: 4.9,
       trend: "+8%",
       price: "50K - 800K",
-      features: ["Rank Thách Đấu", "Tướng đầy đủ"],
+      features: ["Rank Thách Đấu", "Tướng đầy đủ", "Skin hiếm"],
       gradient: "from-neon-purple to-indigo-400",
-      popular: false
+      popular: true,
+      image: "🎮"
+    },
+    {
+      name: "FreeFire",
+      category: "Battle Royale",
+      accounts: "1,500+",
+      rating: 4.8,
+      trend: "+22%",
+      price: "30K - 500K",
+      features: ["Rank Thách Đấu", "Skin nhân vật", "Pet VIP"],
+      gradient: "from-orange-500 to-red-400",
+      popular: true,
+      image: "🔥"
+    },
+    {
+      name: "Roblox",
+      category: "Sandbox",
+      accounts: "1,000+",
+      rating: 4.7,
+      trend: "+15%",
+      price: "20K - 300K",
+      features: ["Robux nhiều", "Game Pass", "Limited Items"],
+      gradient: "from-neon-green to-emerald-400",
+      popular: true,
+      image: "🎲"
+    },
+    {
+      name: "PUBG Mobile",
+      category: "Battle Royale",
+      accounts: "800+",
+      rating: 4.6,
+      trend: "+12%",
+      price: "40K - 600K",
+      features: ["Rank Ace", "Skin súng", "Outfit hiếm"],
+      gradient: "from-neon-blue to-cyan-400",
+      popular: false,
+      image: "🎯"
     }
   ];
 
@@ -148,12 +152,12 @@ const GameServices = () => {
           ))}
         </div>
 
-        {/* Popular Games Section */}
+        {/* Hot Accounts Section */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
-            Game{" "}
+            Tài Khoản{" "}
             <span className="text-transparent bg-gradient-accent bg-clip-text">
-              Phổ Biến
+              Hot
             </span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -180,9 +184,12 @@ const GameServices = () => {
               <CardContent className="p-6 relative">
                 <div className="mb-4">
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-lg font-bold text-foreground group-hover:text-neon-purple transition-colors">
-                      {game.name}
-                    </h3>
+                    <div className="flex items-center gap-2">
+                      <span className="text-2xl animate-pulse">{game.image}</span>
+                      <h3 className="text-lg font-bold text-foreground group-hover:text-neon-purple transition-colors">
+                        {game.name}
+                      </h3>
+                    </div>
                     <div className="flex items-center text-sm text-muted-foreground">
                       <TrendingUp className="h-4 w-4 text-neon-green mr-1" />
                       {game.trend}
