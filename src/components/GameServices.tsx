@@ -36,7 +36,7 @@ const GameServices = () => {
       icon: <Crown className="h-8 w-8 text-neon-cyan" />,
       title: "Đối Tác",
       description: "Hợp tác kinh doanh và phát triển cùng nhau",
-      features: ["Duo/Solo", "Win rate 90%+", "Tăng rank nhanh", "Giá tốt nhất"],
+      features: ["Uy tín", "Tiếp cận khách hàng tiềm năng", "Hỗ trợ đa thể loại", "Tạo shop acc tự động miễn phí"],
       price: "Từ 100.000đ",
       badge: "VIP"
     }
@@ -183,28 +183,23 @@ const GameServices = () => {
 
               <CardContent className="p-6 relative">
                 <div className="mb-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2">
-                      <span className="text-2xl animate-pulse">{game.image}</span>
-                      <h3 className="text-lg font-bold text-foreground group-hover:text-neon-purple transition-colors">
-                        {game.name}
-                      </h3>
-                    </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <TrendingUp className="h-4 w-4 text-neon-green mr-1" />
-                      {game.trend}
-                    </div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-2xl animate-pulse">{game.image}</span>
+                    <h3 className="text-lg font-bold text-foreground group-hover:text-neon-purple transition-colors">
+                      {game.name}
+                    </h3>
                   </div>
                   <Badge variant="outline" className="text-xs">
                     {game.category}
                   </Badge>
                 </div>
+                
+                {/* Product Image Placeholder */}
+                <div className="w-full h-32 bg-white/5 rounded-lg mb-4 flex items-center justify-center">
+                  <span className="text-muted-foreground text-sm">Ảnh sản phẩm</span>
+                </div>
 
                 <div className="space-y-2 mb-4">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Có sẵn:</span>
-                    <span className="text-neon-green font-semibold">{game.accounts}</span>
-                  </div>
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">Giá:</span>
                     <span className="text-neon-purple font-semibold">{game.price}</span>

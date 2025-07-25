@@ -40,7 +40,7 @@ const Header = () => {
   };
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('vi-VN').format(amount) + ' VND';
+    return new Intl.NumberFormat('vi-VN').format(amount) + 'đ';
   };
 
   return (
@@ -57,10 +57,10 @@ const Header = () => {
 
           {/* Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#" className="text-foreground hover:text-neon-green transition-colors">
+            <a href="/" className="text-foreground hover:text-neon-green transition-colors">
               Trang chủ
             </a>
-            <a href="#" className="text-foreground hover:text-neon-green transition-colors">
+            <a href="/tai-khoan-game" className="text-foreground hover:text-neon-green transition-colors">
               Tài khoản Game
             </a>
             <a href="#" className="text-foreground hover:text-neon-green transition-colors">
@@ -83,19 +83,19 @@ const Header = () => {
               <>
                 <div className="hidden sm:flex items-center space-x-3">
                   {/* User info container */}
-                  <div className="flex items-center space-x-3 bg-white/5 border border-white/10 rounded-lg px-3 py-2">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-8 h-8 bg-neon-green rounded-full flex items-center justify-center">
-                        <span className="text-dark-bg font-bold text-sm">
+                  <div className="flex items-center space-x-2 bg-white/5 border border-white/10 rounded-lg px-2 py-1">
+                    <div className="flex items-center space-x-1">
+                      <div className="w-6 h-6 bg-neon-green rounded-full flex items-center justify-center">
+                        <span className="text-dark-bg font-bold text-xs">
                           {currentUser.taikhoan?.charAt(0).toUpperCase()}
                         </span>
                       </div>
-                      <span className="text-foreground font-medium">{currentUser.taikhoan}</span>
+                      <span className="text-foreground text-sm">{currentUser.taikhoan}</span>
                     </div>
-                    <div className="h-4 w-px bg-white/20"></div>
+                    <div className="h-3 w-px bg-white/20"></div>
                     <div className="flex items-center space-x-1">
-                      <Wallet className="h-4 w-4 text-neon-green" />
-                      <span className="text-neon-green font-semibold">
+                      <Wallet className="h-3 w-3 text-neon-green" />
+                      <span className="text-neon-green text-sm font-semibold">
                         {formatCurrency(currentUser.tien || 0)}
                       </span>
                     </div>
@@ -104,17 +104,17 @@ const Header = () => {
                     <LogOut className="h-4 w-4" />
                   </Button>
                 </div>
-                <div className="sm:hidden flex items-center space-x-2">
-                  <div className="flex items-center space-x-2 bg-white/5 border border-white/10 rounded-lg px-2 py-1">
-                    <div className="w-6 h-6 bg-neon-green rounded-full flex items-center justify-center">
+                <div className="sm:hidden flex items-center space-x-1">
+                  <div className="flex items-center space-x-1 bg-white/5 border border-white/10 rounded-lg px-1 py-1">
+                    <div className="w-5 h-5 bg-neon-green rounded-full flex items-center justify-center">
                       <span className="text-dark-bg font-bold text-xs">
                         {currentUser.taikhoan?.charAt(0).toUpperCase()}
                       </span>
                     </div>
-                    <span className="text-foreground text-sm">{currentUser.taikhoan}</span>
+                    <span className="text-foreground text-xs">{currentUser.taikhoan}</span>
                   </div>
-                  <Button variant="outline" size="sm">
-                    <Wallet className="h-4 w-4 mr-1" />
+                  <Button variant="outline" size="sm" className="text-xs px-2">
+                    <Wallet className="h-3 w-3 mr-1" />
                     <span className="text-xs">{formatCurrency(currentUser.tien || 0)}</span>
                   </Button>
                 </div>
@@ -157,10 +157,10 @@ const Header = () => {
           isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         }`}>
           <nav className="pt-4 pb-2 space-y-2">
-            <a href="#" className="block px-4 py-2 text-foreground hover:text-neon-green hover:bg-white/5 rounded transition-colors">
+            <a href="/" className="block px-4 py-2 text-foreground hover:text-neon-green hover:bg-white/5 rounded transition-colors">
               Trang chủ
             </a>
-            <a href="#" className="block px-4 py-2 text-foreground hover:text-neon-green hover:bg-white/5 rounded transition-colors">
+            <a href="/tai-khoan-game" className="block px-4 py-2 text-foreground hover:text-neon-green hover:bg-white/5 rounded transition-colors">
               Tài khoản Game
             </a>
             <a href="#" className="block px-4 py-2 text-foreground hover:text-neon-green hover:bg-white/5 rounded transition-colors">
