@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, X } from 'lucide-react';
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
@@ -42,6 +42,9 @@ export default function Auth() {
       if (userData.maphanquyen === 3) {
         // Admin needs PIN verification
         navigate('/admin-pin');
+      } else if (userData.maphanquyen === 1) {
+        // Regular user goes to home page
+        navigate('/');
       } else {
         navigate('/dashboard');
       }
@@ -109,7 +112,15 @@ export default function Auth() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <Card className="w-full max-w-md p-6 space-y-6">
+      <Card className="w-full max-w-md p-6 space-y-6 relative">
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          className="absolute right-2 top-2"
+          onClick={() => navigate('/')}
+        >
+          <X className="h-4 w-4" />
+        </Button>
         <div className="text-center">
           <h1 className="text-2xl font-bold">
             {isLogin ? 'Đăng nhập' : 'Đăng ký'}

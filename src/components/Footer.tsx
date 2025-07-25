@@ -67,28 +67,28 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Support */}
+          {/* Introduction */}
           <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-foreground">Hỗ Trợ</h3>
+            <h3 className="text-lg font-semibold text-foreground">Giới thiệu</h3>
             <ul className="space-y-3">
-              {[
-                "Hướng dẫn mua hàng",
-                "Chính sách bảo hành",
-                "Điều khoản sử dụng",
-                "Chính sách hoàn tiền",
-                "FAQ",
-                "Liên hệ"
-              ].map((item, index) => (
-                <li key={index}>
-                  <a 
-                    href="#" 
-                    className="text-muted-foreground hover:text-neon-green transition-colors text-sm"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
+              <li className="text-muted-foreground text-sm">danhnhanIT</li>
+              <li className="text-muted-foreground text-sm">Ngô Tuấn</li>
+              <li className="text-muted-foreground text-sm">Hoàng Vỹ</li>
+              <li className="text-muted-foreground text-sm">Triệu Khải</li>
             </ul>
+            <div className="flex flex-col space-y-2">
+              <Button variant="outline" size="sm" className="w-full">
+                <Mail className="h-4 w-4 mr-2" />
+                Gmail
+              </Button>
+              <Button variant="outline" size="sm" className="w-full">
+                <MessageCircle className="h-4 w-4 mr-2" />
+                Tin nhắn
+              </Button>
+              <Button variant="outline" size="sm" className="w-full">
+                Về chúng tôi
+              </Button>
+            </div>
           </div>
 
           {/* Contact */}

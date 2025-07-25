@@ -97,38 +97,6 @@ const Professional = () => {
           ))}
         </div>
 
-        {/* Certifications */}
-        <div className="bg-gradient-card border border-border-glow rounded-2xl p-8 text-center">
-          <div className="flex items-center justify-center mb-6">
-            <div className="p-4 bg-gradient-primary rounded-full shadow-glow">
-              <CheckCircle className="h-8 w-8 text-white" />
-            </div>
-          </div>
-          <h3 className="text-2xl font-bold text-foreground mb-4">
-            Chứng nhận & Giải thưởng
-          </h3>
-          <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-            Được công nhận bởi các tổ chức uy tín trong ngành công nghệ và gaming
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Badge variant="outline" className="px-4 py-2">
-              <Star className="h-4 w-4 mr-2" />
-              ISO 9001:2015
-            </Badge>
-            <Badge variant="outline" className="px-4 py-2">
-              <Award className="h-4 w-4 mr-2" />
-              Top Gaming Service 2023
-            </Badge>
-            <Badge variant="outline" className="px-4 py-2">
-              <Headphones className="h-4 w-4 mr-2" />
-              Best Customer Service
-            </Badge>
-            <Badge variant="outline" className="px-4 py-2">
-              <Lock className="h-4 w-4 mr-2" />
-              Security Certified
-            </Badge>
-          </div>
-        </div>
       </div>
     </section>
   );

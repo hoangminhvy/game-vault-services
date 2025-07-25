@@ -1,11 +1,29 @@
 import { Button } from "@/components/ui/button";
-import { Gamepad2, Menu, User } from "lucide-react";
-import { useState } from "react";
+import { Gamepad2, Menu, User, Wallet, LogOut } from "lucide-react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const userData = localStorage.getItem('currentUser');
+    if (userData) {
+      setCurrentUser(JSON.parse(userData));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('currentUser');
+    setCurrentUser(null);
+    navigate('/');
+  };
+
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('vi-VN').format(amount) + ' VND';
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-dark-bg/90 backdrop-blur-md border-b border-border-glow">
@@ -43,24 +61,47 @@ const Header = () => {
 
           {/* Actions */}
           <div className="flex items-center space-x-4">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="hidden sm:flex"
-              onClick={() => navigate('/auth')}
-            >
-              <User className="h-4 w-4 mr-2" />
-              Đăng nhập
-            </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="sm:hidden"
-              onClick={() => navigate('/auth')}
-            >
-              <User className="h-4 w-4 mr-2" />
-              Đăng nhập
-            </Button>
+            {currentUser ? (
+              <>
+                <div className="hidden sm:flex items-center space-x-2">
+                  <span className="text-foreground font-medium">{currentUser.taikhoan}</span>
+                  <Button variant="outline" size="sm">
+                    <Wallet className="h-4 w-4 mr-2" />
+                    {formatCurrency(currentUser.tien)}
+                  </Button>
+                  <Button variant="ghost" size="sm" onClick={handleLogout}>
+                    <LogOut className="h-4 w-4" />
+                  </Button>
+                </div>
+                <div className="sm:hidden flex items-center space-x-2">
+                  <span className="text-foreground text-sm">{currentUser.taikhoan}</span>
+                  <Button variant="outline" size="sm">
+                    <Wallet className="h-4 w-4" />
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="hidden sm:flex"
+                  onClick={() => navigate('/auth')}
+                >
+                  <User className="h-4 w-4 mr-2" />
+                  Đăng nhập
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="sm:hidden"
+                  onClick={() => navigate('/auth')}
+                >
+                  <User className="h-4 w-4 mr-2" />
+                  Đăng nhập
+                </Button>
+              </>
+            )}
             <Button 
               variant="ghost" 
               size="icon" 
@@ -96,15 +137,29 @@ const Header = () => {
               Đối tác
             </a>
             <div className="px-4 py-2">
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="w-full"
-                onClick={() => navigate('/auth')}
-              >
-                <User className="h-4 w-4 mr-2" />
-                Đăng nhập
-              </Button>
+              {currentUser ? (
+                <div className="space-y-2">
+                  <div className="text-center text-foreground font-medium">{currentUser.taikhoan}</div>
+                  <Button variant="outline" size="sm" className="w-full">
+                    <Wallet className="h-4 w-4 mr-2" />
+                    {formatCurrency(currentUser.tien)}
+                  </Button>
+                  <Button variant="ghost" size="sm" className="w-full" onClick={handleLogout}>
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Đăng xuất
+                  </Button>
+                </div>
+              ) : (
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full"
+                  onClick={() => navigate('/auth')}
+                >
+                  <User className="h-4 w-4 mr-2" />
+                  Đăng nhập
+                </Button>
+              )}
             </div>
           </nav>
         </div>
