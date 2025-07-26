@@ -15,9 +15,8 @@ const Header = () => {
     if (userData) {
       const user = JSON.parse(userData);
       try {
-        const { data, error } = await supabase.rpc('verify_login', {
-          user_email: user.email,
-          user_password: 'dummy' // We can't verify password here, so we'll fetch by email
+        const { data, error } = await supabase.rpc('get_user_by_email', {
+          user_email: user.email
         });
         
         if (!error && data && data.length > 0) {

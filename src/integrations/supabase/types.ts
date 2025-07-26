@@ -99,6 +99,15 @@ export type Database = {
         Args: { "": string }
         Returns: string
       }
+      get_user_by_email: {
+        Args: { user_email: string }
+        Returns: {
+          taikhoan: string
+          email: string
+          maphanquyen: number
+          tien: number
+        }[]
+      }
       pgp_armor_headers: {
         Args: { "": string }
         Returns: Record<string, unknown>[]
