@@ -142,7 +142,17 @@ const GameServices = () => {
 
                 <div className="flex items-center justify-between">
                   <div className="text-2xl font-bold text-neon-green">{service.price}</div>
-                  <Button variant="outline" className="group-hover:border-neon-green group-hover:text-neon-green">
+                  <Button 
+                    variant="outline" 
+                    className="group-hover:border-neon-green group-hover:text-neon-green"
+                    onClick={() => {
+                      if (service.title === "Dịch Vụ Cày") {
+                        window.location.href = '/cay-thue';
+                      } else if (service.title === "Tài Khoản Game") {
+                        window.location.href = '/tai-khoan-game';
+                      }
+                    }}
+                  >
                     Xem thêm
                     <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </Button>
@@ -252,9 +262,9 @@ const GameServices = () => {
                 <Zap className="mr-2 h-5 w-5" />
                 Đặt dịch vụ ngay
               </Button>
-              <Button variant="neon" size="lg">
+              <Button variant="neon" size="lg" onClick={() => window.location.href = '/dv-mien-phi'}>
                 <Users className="mr-2 h-5 w-5" />
-                Xem tất cả
+                DV miễn phí
               </Button>
             </div>
           </div>

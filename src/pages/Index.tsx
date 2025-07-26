@@ -2,7 +2,6 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import GameServices from "@/components/GameServices";
 import Professional from "@/components/Professional";
-import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
@@ -11,7 +10,6 @@ const Index = () => {
       <Hero />
       <GameServices />
       <Professional />
-      <Footer />
     </div>
   );
 };

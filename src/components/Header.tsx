@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Gamepad2, Menu, User, Wallet, LogOut } from "lucide-react";
+import { Gamepad2, Menu, User, Wallet, LogOut, History } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -89,12 +89,17 @@ const Header = () => {
             <a href="/tai-khoan-game" className="text-foreground hover:text-neon-green transition-colors">
               Tài khoản Game
             </a>
-            <a href="#" className="text-foreground hover:text-neon-green transition-colors">
+            <a href="/cay-thue" className="text-foreground hover:text-neon-green transition-colors">
               Dịch vụ Cày
             </a>
-            <a href="#" className="text-foreground hover:text-neon-green transition-colors">
+            <a href="/dv-mien-phi" className="text-foreground hover:text-neon-green transition-colors">
               DV miễn phí
             </a>
+            {currentUser && (
+              <a href="/lich-su" className="text-foreground hover:text-neon-green transition-colors">
+                Lịch sử
+              </a>
+            )}
             <a href="#" className="text-foreground hover:text-neon-green transition-colors">
               Nạp tiền
             </a>
@@ -189,12 +194,18 @@ const Header = () => {
             <a href="/tai-khoan-game" className="block px-4 py-2 text-foreground hover:text-neon-green hover:bg-white/5 rounded transition-colors">
               Tài khoản Game
             </a>
-            <a href="#" className="block px-4 py-2 text-foreground hover:text-neon-green hover:bg-white/5 rounded transition-colors">
+            <a href="/cay-thue" className="block px-4 py-2 text-foreground hover:text-neon-green hover:bg-white/5 rounded transition-colors">
               Dịch vụ Cày
             </a>
-            <a href="#" className="block px-4 py-2 text-foreground hover:text-neon-green hover:bg-white/5 rounded transition-colors">
+            <a href="/dv-mien-phi" className="block px-4 py-2 text-foreground hover:text-neon-green hover:bg-white/5 rounded transition-colors">
               DV miễn phí
             </a>
+            {currentUser && (
+              <a href="/lich-su" className="block px-4 py-2 text-foreground hover:text-neon-green hover:bg-white/5 rounded transition-colors">
+                <History className="inline h-4 w-4 mr-2" />
+                Lịch sử
+              </a>
+            )}
             <a href="#" className="block px-4 py-2 text-foreground hover:text-neon-green hover:bg-white/5 rounded transition-colors">
               Nạp tiền
             </a>

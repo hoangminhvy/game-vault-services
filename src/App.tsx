@@ -9,6 +9,9 @@ import Auth from "./pages/Auth";
 import AdminPin from "./pages/AdminPin";
 import AdminDashboard from "./pages/AdminDashboard";
 import GameAccounts from "./pages/GameAccounts";
+import CayThue from "./pages/CayThue";
+import DichVuMienPhi from "./pages/DichVuMienPhi";
+import History from "./pages/History";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +27,9 @@ const App = () => (
           <Route path="/admin-pin" element={<AdminPin />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/tai-khoan-game" element={<GameAccounts />} />
+          <Route path="/cay-thue" element={<CayThue />} />
+          <Route path="/dv-mien-phi" element={<DichVuMienPhi />} />
+          <Route path="/lich-su" element={<History />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

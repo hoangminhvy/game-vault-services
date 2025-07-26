@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import ProductDetailModal from "@/components/ProductDetailModal";
 import { supabase } from "@/integrations/supabase/client";
 
 interface Product {
@@ -22,6 +22,8 @@ const GameAccounts = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [loading, setLoading] = useState(true);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const categories = [
     { value: "all", label: "Tất cả" },
@@ -73,6 +75,16 @@ const GameAccounts = () => {
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('vi-VN').format(amount) + 'đ';
+  };
+
+  const handleProductClick = (product: Product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
   };
 
   if (loading) {
@@ -134,12 +146,16 @@ const GameAccounts = () => {
           </div>
 
           {/* Products Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {filteredProducts.map((product) => (
-              <Card key={product.id} className="bg-white/5 border-white/10 hover:bg-white/10 transition-colors group">
+              <Card 
+                key={product.id} 
+                className="bg-gradient-card border-border-glow hover:border-neon-green/60 transition-all duration-300 hover:shadow-glow group cursor-pointer"
+                onClick={() => handleProductClick(product)}
+              >
                 <CardContent className="p-4">
                   {/* Product Image */}
-                  <div className="w-full h-32 bg-white/5 rounded-lg mb-3 flex items-center justify-center overflow-hidden">
+                  <div className="w-full aspect-square bg-white/5 rounded-lg mb-3 flex items-center justify-center overflow-hidden">
                     {product.image_url ? (
                       <img 
                         src={product.image_url} 
@@ -156,6 +172,13 @@ const GameAccounts = () => {
                     {product.name}
                   </h3>
 
+                  {/* Description */}
+                  {product.description && (
+                    <p className="text-muted-foreground text-xs mb-2 line-clamp-2">
+                      {product.description}
+                    </p>
+                  )}
+
                   {/* Price */}
                   <div className="text-neon-green font-bold text-lg mb-3">
                     {formatCurrency(product.price)}
@@ -165,6 +188,10 @@ const GameAccounts = () => {
                   <Button 
                     size="sm" 
                     className="w-full bg-neon-green text-dark-bg hover:bg-neon-green/90 text-xs"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleProductClick(product);
+                    }}
                   >
                     <ShoppingCart className="h-3 w-3 mr-1" />
                     Mua ngay
@@ -194,7 +221,12 @@ const GameAccounts = () => {
         </div>
       </main>
 
-      <Footer />
+      {/* Product Detail Modal */}
+      <ProductDetailModal
+        product={selectedProduct}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </div>
   );
 };
