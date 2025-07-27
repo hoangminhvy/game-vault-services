@@ -149,6 +149,18 @@ const ProductManagement = () => {
         'phương thức': prod['phương thức'] || ""
       });
       setImages([prod.image_url, prod.image_url2, prod.image_url3, prod.image_url4, prod.image_url5].filter(Boolean) as string[]);
+    } else if (type === 'caythue') {
+      const cayThueProduct = product as CayThueProduct;
+      setFormData({
+        name: cayThueProduct.name,
+        category: "",
+        price: cayThueProduct.price.toString(),
+        description: "",
+        tk: "",
+        mk: "",
+        'phương thức': cayThueProduct.unit || ""
+      });
+      setImages(cayThueProduct.image_url ? [cayThueProduct.image_url] : []);
     } else {
       setFormData({
         name: product.name,
@@ -233,6 +245,7 @@ const ProductManagement = () => {
         const cayThueData = {
           name: formData.name.trim(),
           price: price,
+          unit: formData['phương thức'].trim() || null,
           image_url: images[0] || null,
         };
 
@@ -565,6 +578,20 @@ const ProductManagement = () => {
                   min="0"
                   className="bg-white/5 border-white/10 text-foreground"
                   required={productType === 'products'}
+                />
+              </div>
+            )}
+            
+            {productType === 'caythue' && (
+              <div>
+                <label className="text-sm font-medium text-foreground mb-1 block">
+                  Đơn vị
+                </label>
+                <Input
+                  value={formData['phương thức']}
+                  onChange={(e) => setFormData({ ...formData, 'phương thức': e.target.value })}
+                  placeholder="Ví dụ: level, giờ, ngày..."
+                  className="bg-white/5 border-white/10 text-foreground"
                 />
               </div>
             )}

@@ -60,9 +60,11 @@ const Header = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('currentUser');
-    setCurrentUser(null);
-    navigate('/');
+    if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+      localStorage.removeItem('currentUser');
+      setCurrentUser(null);
+      navigate('/');
+    }
   };
 
   const formatCurrency = (amount: number) => {

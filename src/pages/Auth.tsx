@@ -64,13 +64,33 @@ export default function Auth() {
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (!email || !password || !taikhoan) {
+      toast.error("Vui lòng điền đầy đủ thông tin");
+      return;
+    }
+
+    if (taikhoan.length < 4 || taikhoan.length > 10) {
+      toast.error("Tên tài khoản không được ít hơn 4 ký tự hoặc nhiều hơn 10 ký tự");
+      return;
+    }
+
     if (password !== confirmPassword) {
       toast.error('Mật khẩu nhập lại không khớp');
       return;
     }
 
-    if (password.length < 6) {
-      toast.error('Mật khẩu phải có ít nhất 6 ký tự');
+    if (password.length < 8) {
+      toast.error('Mật khẩu phải có ít nhất 8 ký tự');
+      return;
+    }
+
+    if (!/(?=.*[0-9])(?=.*[a-zA-Z])/.test(password)) {
+      toast.error('Mật khẩu phải có cả số lẫn chữ');
+      return;
+    }
+
+    if (!/(?=.*[!@#$%^&*(),.?":{}|<>])/.test(password)) {
+      toast.error('Mật khẩu phải có ít nhất 1 ký tự đặc biệt');
       return;
     }
 

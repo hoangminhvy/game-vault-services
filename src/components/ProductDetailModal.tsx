@@ -34,6 +34,7 @@ interface Product {
   tk?: string;
   mk?: string;
   'phương thức'?: string;
+  tt?: string;
 }
 
 interface ProductDetailModalProps {
@@ -165,10 +166,11 @@ const ProductDetailModal = ({ product, isOpen, onClose }: ProductDetailModalProp
       window.dispatchEvent(new Event('userDataUpdate'));
 
       // Success message
-      toast({
-        title: "Mua thành công!",
-        description: "Vui lòng vào phần lịch sử để xem thông tin tài khoản",
-      });
+          toast({
+            title: "Mua hàng thành công!",
+            description: `✅ Tài khoản đã được giao thành công. Phương thức: ${product['phương thức'] || 'Không xác định'}. Giao dịch thành công, bạn có 3 tiếng để liên hệ với chúng tôi nếu sản phẩm không giống với quảng cáo và vui lòng đổi mật khẩu sau khi đăng nhập nếu không có sự cố nào xảy ra.`,
+            duration: 0
+          });
 
       // Close dialogs
       setShowConfirmDialog(false);
@@ -264,14 +266,16 @@ const ProductDetailModal = ({ product, isOpen, onClose }: ProductDetailModalProp
               <Button variant="outline" onClick={onClose} className="flex-1">
                 Đóng
               </Button>
-              <Button 
-                variant="gaming" 
-                onClick={() => setShowConfirmDialog(true)}
-                className="flex-1"
-                disabled={isProcessing}
-              >
-                {isProcessing ? "Đang xử lý..." : "Mua ngay"}
-              </Button>
+              {product.tt !== 'đã bán' && product.tt !== 'đang giao dịch' && (
+                <Button 
+                  variant="gaming" 
+                  onClick={() => setShowConfirmDialog(true)}
+                  className="flex-1"
+                  disabled={isProcessing}
+                >
+                  {isProcessing ? "Đang xử lý..." : "Mua ngay"}
+                </Button>
+              )}
             </div>
           </div>
         </DialogContent>

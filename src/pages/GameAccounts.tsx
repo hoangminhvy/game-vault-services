@@ -14,6 +14,7 @@ interface Product {
   price: number;
   image_url?: string;
   description?: string;
+  tt?: string;
 }
 
 const GameAccounts = () => {
@@ -187,14 +188,25 @@ const GameAccounts = () => {
                   {/* Buy Button */}
                   <Button 
                     size="sm" 
-                    className="w-full bg-neon-green text-dark-bg hover:bg-neon-green/90 text-xs"
+                    className={`w-full text-xs ${
+                      product.tt === 'đã bán' 
+                        ? 'bg-red-500 text-white hover:bg-red-600' 
+                        : product.tt === 'đang giao dịch'
+                        ? 'bg-yellow-500 text-dark-bg hover:bg-yellow-600'
+                        : 'bg-neon-green text-dark-bg hover:bg-neon-green/90'
+                    }`}
                     onClick={(e) => {
                       e.stopPropagation();
                       handleProductClick(product);
                     }}
                   >
                     <ShoppingCart className="h-3 w-3 mr-1" />
-                    Mua ngay
+                    {product.tt === 'đã bán' 
+                      ? 'Đã bán' 
+                      : product.tt === 'đang giao dịch'
+                      ? 'Đang giao dịch'
+                      : 'Mua ngay'
+                    }
                   </Button>
                 </CardContent>
               </Card>

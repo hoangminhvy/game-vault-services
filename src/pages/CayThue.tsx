@@ -78,7 +78,7 @@ const CayThue = () => {
   return (
     <div className="min-h-screen bg-dark-bg">
       <Header />
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 pt-24">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-foreground mb-4">
             Dịch Vụ <span className="text-neon-green">Cày Thuê</span>
@@ -143,7 +143,7 @@ const CayThue = () => {
                 
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-neon-green font-bold text-lg">
-                    {formatCurrency(product.price)}
+                    {formatCurrency(product.price)}{product.unit && `/${product.unit}`}
                   </span>
                   <Badge variant="secondary" className="text-xs">
                     Cày thuê
