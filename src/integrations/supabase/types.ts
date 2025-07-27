@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      caythue: {
+        Row: {
+          id: number
+          image_url: string | null
+          name: string
+          price: number | null
+          unit: string | null
+        }
+        Insert: {
+          id?: number
+          image_url?: string | null
+          name: string
+          price?: number | null
+          unit?: string | null
+        }
+        Update: {
+          id?: number
+          image_url?: string | null
+          name?: string
+          price?: number | null
+          unit?: string | null
+        }
+        Relationships: []
+      }
       dataname: {
         Row: {
           email: string | null
@@ -41,36 +65,135 @@ export type Database = {
         }
         Relationships: []
       }
+      DVmienphi: {
+        Row: {
+          button_url: string | null
+          id: number
+          image_url: string | null
+          name: string
+          status: string | null
+        }
+        Insert: {
+          button_url?: string | null
+          id?: number
+          image_url?: string | null
+          name: string
+          status?: string | null
+        }
+        Update: {
+          button_url?: string | null
+          id?: number
+          image_url?: string | null
+          name?: string
+          status?: string | null
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           category: string
+          "chủ thể": string | null
           created_at: string
           description: string | null
           id: string
           image_url: string | null
+          image_url2: string | null
+          image_url3: string | null
+          image_url4: string | null
+          image_url5: string | null
+          "khách hàng": string | null
+          mk: string | null
           name: string
+          "phương thức": string | null
           price: number
+          tk: string | null
+          tt: string | null
           updated_at: string
         }
         Insert: {
           category: string
+          "chủ thể"?: string | null
           created_at?: string
           description?: string | null
           id?: string
           image_url?: string | null
+          image_url2?: string | null
+          image_url3?: string | null
+          image_url4?: string | null
+          image_url5?: string | null
+          "khách hàng"?: string | null
+          mk?: string | null
           name: string
+          "phương thức"?: string | null
           price?: number
+          tk?: string | null
+          tt?: string | null
           updated_at?: string
         }
         Update: {
           category?: string
+          "chủ thể"?: string | null
           created_at?: string
           description?: string | null
           id?: string
           image_url?: string | null
+          image_url2?: string | null
+          image_url3?: string | null
+          image_url4?: string | null
+          image_url5?: string | null
+          "khách hàng"?: string | null
+          mk?: string | null
           name?: string
+          "phương thức"?: string | null
           price?: number
+          tk?: string | null
+          tt?: string | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      purchase_history: {
+        Row: {
+          category: string
+          created_at: string
+          game_password: string
+          game_username: string
+          id: string
+          product_id: string
+          product_name: string
+          product_price: number
+          purchase_date: string
+          purchase_method: string | null
+          updated_at: string
+          user_email: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          game_password: string
+          game_username: string
+          id?: string
+          product_id: string
+          product_name: string
+          product_price: number
+          purchase_date?: string
+          purchase_method?: string | null
+          updated_at?: string
+          user_email: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          game_password?: string
+          game_username?: string
+          id?: string
+          product_id?: string
+          product_name?: string
+          product_price?: number
+          purchase_date?: string
+          purchase_method?: string | null
+          updated_at?: string
+          user_email?: string
         }
         Relationships: []
       }

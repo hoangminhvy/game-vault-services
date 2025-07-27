@@ -7,12 +7,11 @@ import { Input } from "@/components/ui/input";
 import { Search, ExternalLink } from "lucide-react";
 
 interface Product {
-  id: string;
+  id: number;
   name: string;
-  category: string;
-  price: number;
   image_url?: string;
-  description?: string;
+  button_url?: string;
+  status?: string;
 }
 
 const DichVuMienPhi = () => {
@@ -32,9 +31,9 @@ const DichVuMienPhi = () => {
   const fetchProducts = async () => {
     try {
       const { data, error } = await supabase
-        .from('products')
+        .from('DVmienphi')
         .select('*')
-        .eq('category', 'mien-phi');
+        .order('id', { ascending: false });
       
       if (error) throw error;
       setProducts(data || []);
@@ -50,8 +49,7 @@ const DichVuMienPhi = () => {
 
     if (searchQuery) {
       filtered = filtered.filter(product =>
-        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (product.description && product.description.toLowerCase().includes(searchQuery.toLowerCase()))
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
@@ -122,11 +120,6 @@ const DichVuMienPhi = () => {
                       {product.name}
                     </h3>
                     
-                    {product.description && (
-                      <p className="text-muted-foreground mb-4 leading-relaxed">
-                        {product.description}
-                      </p>
-                    )}
                     
                     <div className="flex items-center justify-between mt-6">
                       <div className="flex items-center gap-4">

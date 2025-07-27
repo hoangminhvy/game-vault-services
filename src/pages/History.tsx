@@ -29,9 +29,26 @@ const History = () => {
 
   const fetchHistory = async () => {
     try {
-      // This would fetch from a purchase_history table
-      // For now, we'll show a placeholder since the table doesn't exist yet
-      setHistory([]);
+      const userData = localStorage.getItem('currentUser');
+      if (!userData) {
+        setHistory([]);
+        setLoading(false);
+        return;
+      }
+
+      const user = JSON.parse(userData);
+      const { data, error } = await supabase
+        .from('purchase_history')
+        .select('*')
+        .eq('user_email', user.email)
+        .order('purchase_date', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching history:', error);
+        setHistory([]);
+      } else {
+        setHistory(data || []);
+      }
     } catch (error) {
       console.error('Error fetching history:', error);
     } finally {

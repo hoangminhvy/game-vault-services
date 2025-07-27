@@ -26,7 +26,14 @@ interface Product {
   category: string;
   price: number;
   image_url?: string;
+  image_url2?: string;
+  image_url3?: string;
+  image_url4?: string;
+  image_url5?: string;
   description?: string;
+  tk?: string;
+  mk?: string;
+  'phương thức'?: string;
 }
 
 interface ProductDetailModalProps {
@@ -119,6 +126,37 @@ const ProductDetailModal = ({ product, isOpen, onClose }: ProductDetailModalProp
         return;
       }
 
+      // Update product status and customer info
+      const { error: productUpdateError } = await supabase
+        .from('products')
+        .update({ 
+          'khách hàng': user.taikhoan || user.email,
+          'tt': 'đang giao dịch'
+        })
+        .eq('id', product.id);
+
+      if (productUpdateError) {
+        console.error('Error updating product:', productUpdateError);
+      }
+
+      // Create purchase history record
+      const { error: historyError } = await supabase
+        .from('purchase_history')
+        .insert({
+          user_email: user.email,
+          product_id: product.id,
+          product_name: product.name,
+          product_price: product.price,
+          game_username: product.tk || 'N/A',
+          game_password: product.mk || 'N/A',
+          purchase_method: product['phương thức'] || 'N/A',
+          category: product.category
+        });
+
+      if (historyError) {
+        console.error('Error creating purchase history:', historyError);
+      }
+
       // Update localStorage
       const updatedUser = { ...user, tien: newBalance };
       localStorage.setItem('currentUser', JSON.stringify(updatedUser));
@@ -162,33 +200,23 @@ const ProductDetailModal = ({ product, isOpen, onClose }: ProductDetailModalProp
 
           <div className="space-y-6">
             {/* Product Images */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {product.image_url ? (
-                <>
-                  <div className="aspect-square bg-white/5 rounded-lg overflow-hidden">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+              {[product.image_url, product.image_url2, product.image_url3, product.image_url4, product.image_url5]
+                .filter(Boolean)
+                .map((imageUrl, index) => (
+                  <div key={index} className="aspect-square bg-white/5 rounded-lg overflow-hidden">
                     <img 
-                      src={product.image_url} 
-                      alt={product.name}
+                      src={imageUrl!} 
+                      alt={`${product.name} - Ảnh ${index + 1}`}
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div className="aspect-square bg-white/5 rounded-lg overflow-hidden">
-                    <img 
-                      src={product.image_url} 
-                      alt={`${product.name} - Ảnh 2`}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="aspect-square bg-white/5 rounded-lg flex items-center justify-center">
-                    <span className="text-muted-foreground">Ảnh sản phẩm 1</span>
-                  </div>
-                  <div className="aspect-square bg-white/5 rounded-lg flex items-center justify-center">
-                    <span className="text-muted-foreground">Ảnh sản phẩm 2</span>
-                  </div>
-                </>
+                ))}
+              {[product.image_url, product.image_url2, product.image_url3, product.image_url4, product.image_url5]
+                .filter(Boolean).length === 0 && (
+                <div className="aspect-square bg-white/5 rounded-lg flex items-center justify-center col-span-full">
+                  <span className="text-muted-foreground">Chưa có ảnh sản phẩm</span>
+                </div>
               )}
             </div>
 

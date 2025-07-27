@@ -8,12 +8,11 @@ import { Badge } from "@/components/ui/badge";
 import { Search, Filter } from "lucide-react";
 
 interface Product {
-  id: string;
+  id: number;
   name: string;
-  category: string;
   price: number;
+  unit?: string;
   image_url?: string;
-  description?: string;
 }
 
 const CayThue = () => {
@@ -36,9 +35,9 @@ const CayThue = () => {
   const fetchProducts = async () => {
     try {
       const { data, error } = await supabase
-        .from('products')
+        .from('caythue')
         .select('*')
-        .eq('category', 'cay-thue');
+        .order('id', { ascending: false });
       
       if (error) throw error;
       setProducts(data || []);
@@ -54,13 +53,8 @@ const CayThue = () => {
 
     if (searchQuery) {
       filtered = filtered.filter(product =>
-        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (product.description && product.description.toLowerCase().includes(searchQuery.toLowerCase()))
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
-    }
-
-    if (selectedCategory !== "all") {
-      filtered = filtered.filter(product => product.category === selectedCategory);
     }
 
     setFilteredProducts(filtered);
@@ -146,11 +140,6 @@ const CayThue = () => {
                   {product.name}
                 </h3>
                 
-                {product.description && (
-                  <p className="text-muted-foreground text-sm mb-3 line-clamp-2">
-                    {product.description}
-                  </p>
-                )}
                 
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-neon-green font-bold text-lg">
