@@ -84,7 +84,7 @@ const Header = () => {
     });
   };
 
-  const handlePartnerRegister = () => {
+  const handlePartnerRegister = async () => {
     const userData = localStorage.getItem('currentUser');
     if (!userData) {
       toast({
@@ -107,11 +107,39 @@ const Header = () => {
     setPartnerModalOpen(false);
     setEmailVerificationOpen(true);
 
-    // In real app, send email here
-    toast({
-      title: "Mã xác thực đã được gửi",
-      description: `Mã xác thực: ${code} (Demo - trong thực tế sẽ gửi qua email)`,
-    });
+    // Send verification email
+    try {
+      const { data, error } = await supabase.functions.invoke('send-verification-email', {
+        body: {
+          email: user.email,
+          verificationCode: code
+        }
+      });
+
+      if (error) {
+        console.error('Error sending email:', error);
+        toast({
+          title: "Lỗi gửi email",
+          description: "Không thể gửi mã xác thực. Vui lòng thử lại.",
+          variant: "destructive",
+        });
+        setEmailVerificationOpen(false);
+        return;
+      }
+
+      toast({
+        title: "Mã xác thực đã được gửi",
+        description: `Vui lòng kiểm tra email ${user.email}`,
+      });
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        title: "Lỗi",
+        description: "Có lỗi xảy ra khi gửi email xác thực",
+        variant: "destructive",
+      });
+      setEmailVerificationOpen(false);
+    }
   };
 
   const handleVerifyCode = async () => {
@@ -382,7 +410,7 @@ const Header = () => {
           </DialogHeader>
           <div className="space-y-4">
             <p className="text-muted-foreground text-center">
-              Chúng tôi đã gửi mã xác thực đến email của bạn từ <strong>thuongnhanIT</strong>
+              Chúng tôi đã gửi mã xác thực đến email <strong>{currentUser?.email}</strong>
             </p>
             <Input
               type="text"
