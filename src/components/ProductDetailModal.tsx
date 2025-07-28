@@ -34,6 +34,7 @@ interface Product {
   tk?: string;
   mk?: string;
   'phương thức'?: string;
+  'chủ thể'?: string;
   tt?: string;
 }
 

@@ -12,6 +12,8 @@ import GameAccounts from "./pages/GameAccounts";
 import CayThue from "./pages/CayThue";
 import DichVuMienPhi from "./pages/DichVuMienPhi";
 import History from "./pages/History";
+import ProductManagement from "./pages/ProductManagement";
+import DoiTac from "./pages/DoiTac";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +32,9 @@ const App = () => (
           <Route path="/cay-thue" element={<CayThue />} />
           <Route path="/dv-mien-phi" element={<DichVuMienPhi />} />
           <Route path="/lich-su" element={<History />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/san-pham" element={<ProductManagement />} />
+          <Route path="/doi-tac" element={<DoiTac />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

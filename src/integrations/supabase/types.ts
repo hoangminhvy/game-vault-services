@@ -40,6 +40,7 @@ export type Database = {
       }
       dataname: {
         Row: {
+          da_rut: number | null
           email: string | null
           maphanquyen: number | null
           matkhau: string
@@ -48,6 +49,7 @@ export type Database = {
           time: string | null
         }
         Insert: {
+          da_rut?: number | null
           email?: string | null
           maphanquyen?: number | null
           matkhau: string
@@ -56,6 +58,7 @@ export type Database = {
           time?: string | null
         }
         Update: {
+          da_rut?: number | null
           email?: string | null
           maphanquyen?: number | null
           matkhau?: string
@@ -109,6 +112,7 @@ export type Database = {
           tk: string | null
           tt: string | null
           updated_at: string
+          uyquyen: boolean | null
         }
         Insert: {
           category: string
@@ -129,6 +133,7 @@ export type Database = {
           tk?: string | null
           tt?: string | null
           updated_at?: string
+          uyquyen?: boolean | null
         }
         Update: {
           category?: string
@@ -149,6 +154,7 @@ export type Database = {
           tk?: string | null
           tt?: string | null
           updated_at?: string
+          uyquyen?: boolean | null
         }
         Relationships: []
       }

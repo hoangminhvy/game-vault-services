@@ -249,7 +249,7 @@ const ProductManagement = () => {
           image_url: images[0] || null,
         };
 
-        if (editingProduct && !('category' in editingProduct)) {
+        if (editingProduct && typeof editingProduct.id === 'number') {
           const { error } = await supabase
             .from('caythue')
             .update(cayThueData)
@@ -270,7 +270,7 @@ const ProductManagement = () => {
           status: 'active'
         };
 
-        if (editingProduct && !('category' in editingProduct)) {
+        if (editingProduct && typeof editingProduct.id === 'number') {
           const { error } = await supabase
             .from('DVmienphi')
             .update(dvMienPhiData)
