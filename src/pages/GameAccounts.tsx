@@ -15,6 +15,7 @@ interface Product {
   image_url?: string;
   description?: string;
   tt?: string;
+  'chủ thể'?: string;
 }
 
 const GameAccounts = () => {
@@ -177,6 +178,13 @@ const GameAccounts = () => {
                   {product.description && (
                     <p className="text-muted-foreground text-xs mb-2 line-clamp-2">
                       {product.description}
+                    </p>
+                  )}
+
+                  {/* Shop Info */}
+                  {product['chủ thể'] && (
+                    <p className="text-neon-green text-xs mb-2">
+                      Shop {product['chủ thể']}
                     </p>
                   )}
 

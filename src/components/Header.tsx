@@ -1,13 +1,23 @@
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { Input } from "@/components/ui/input";
 import { Gamepad2, Menu, User, Wallet, LogOut, History } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const [partnerModalOpen, setPartnerModalOpen] = useState(false);
+  const [emailVerificationOpen, setEmailVerificationOpen] = useState(false);
+  const [verificationCode, setVerificationCode] = useState('');
+  const [generatedCode, setGeneratedCode] = useState('');
+  const [logoutConfirmOpen, setLogoutConfirmOpen] = useState(false);
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   // Function to refresh user data from database
   const refreshUserData = async () => {
@@ -60,10 +70,103 @@ const Header = () => {
   }, []);
 
   const handleLogout = () => {
-    if (window.confirm("Bạn có chắc chắn muốn đăng xuất?")) {
-      localStorage.removeItem('currentUser');
-      setCurrentUser(null);
-      navigate('/');
+    setLogoutConfirmOpen(true);
+  };
+
+  const confirmLogout = () => {
+    localStorage.removeItem('currentUser');
+    setCurrentUser(null);
+    setLogoutConfirmOpen(false);
+    navigate('/');
+    toast({
+      title: "Đăng xuất thành công",
+      description: "Bạn đã đăng xuất khỏi tài khoản",
+    });
+  };
+
+  const handlePartnerRegister = () => {
+    const userData = localStorage.getItem('currentUser');
+    if (!userData) {
+      toast({
+        title: "Lỗi",
+        description: "Vui lòng đăng nhập để đăng ký đối tác",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const user = JSON.parse(userData);
+    if (user.maphanquyen === 2) {
+      navigate('/doi-tac');
+      return;
+    }
+
+    // Generate random 6-digit code
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    setGeneratedCode(code);
+    setPartnerModalOpen(false);
+    setEmailVerificationOpen(true);
+
+    // In real app, send email here
+    toast({
+      title: "Mã xác thực đã được gửi",
+      description: `Mã xác thực: ${code} (Demo - trong thực tế sẽ gửi qua email)`,
+    });
+  };
+
+  const handleVerifyCode = async () => {
+    if (verificationCode === generatedCode) {
+      const userData = localStorage.getItem('currentUser');
+      if (userData) {
+        const user = JSON.parse(userData);
+        
+        try {
+          // Update user permission to 2 in database
+          const { error } = await supabase
+            .from('dataname')
+            .update({ maphanquyen: 2 })
+            .eq('email', user.email);
+
+          if (error) {
+            toast({
+              title: "Lỗi",
+              description: "Không thể cập nhật quyền đối tác",
+              variant: "destructive",
+            });
+            return;
+          }
+
+          // Update localStorage
+          const updatedUser = { ...user, maphanquyen: 2 };
+          localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+          setCurrentUser(updatedUser);
+          
+          setEmailVerificationOpen(false);
+          setVerificationCode('');
+          
+          toast({
+            title: "Xác thực thành công",
+            description: "Bạn đã trở thành đối tác. Chuyển hướng đến trang đối tác...",
+          });
+          
+          setTimeout(() => {
+            navigate('/doi-tac');
+          }, 1000);
+        } catch (error) {
+          console.error('Error updating user permission:', error);
+          toast({
+            title: "Lỗi",
+            description: "Có lỗi xảy ra khi cập nhật quyền",
+            variant: "destructive",
+          });
+        }
+      }
+    } else {
+      toast({
+        title: "Mã xác thực không đúng",
+        description: "Vui lòng kiểm tra lại mã xác thực",
+        variant: "destructive",
+      });
     }
   };
 
@@ -105,9 +208,9 @@ const Header = () => {
             <a href="#" className="text-foreground hover:text-neon-green transition-colors">
               Nạp tiền
             </a>
-            <a href="#" className="text-foreground hover:text-neon-green transition-colors">
+            <button onClick={() => setPartnerModalOpen(true)} className="text-foreground hover:text-neon-green transition-colors">
               Đối tác
-            </a>
+            </button>
           </nav>
 
           {/* Actions */}
@@ -211,9 +314,9 @@ const Header = () => {
             <a href="#" className="block px-4 py-2 text-foreground hover:text-neon-green hover:bg-white/5 rounded transition-colors">
               Nạp tiền
             </a>
-            <a href="#" className="block px-4 py-2 text-foreground hover:text-neon-green hover:bg-white/5 rounded transition-colors">
+            <button onClick={() => setPartnerModalOpen(true)} className="block px-4 py-2 text-foreground hover:text-neon-green hover:bg-white/5 rounded transition-colors w-full text-left">
               Đối tác
-            </a>
+            </button>
             <div className="px-4 py-2">
               {currentUser ? (
                 <div className="space-y-2">
@@ -242,6 +345,84 @@ const Header = () => {
           </nav>
         </div>
       </div>
+
+      {/* Partner Modal */}
+      <Dialog open={partnerModalOpen} onOpenChange={setPartnerModalOpen}>
+        <DialogContent className="bg-gradient-card border-border-glow max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-foreground text-center">Đối tác kinh doanh</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 text-center">
+            <div className="space-y-2 text-muted-foreground">
+              <p>Hợp tác kinh doanh tài khoản và các dịch vụ của bạn</p>
+              <ul className="text-sm space-y-1">
+                <li>• Đăng ký dễ dàng</li>
+                <li>• Ưu đãi đặc biệt</li>
+                <li>• Tiếp cận khách hàng tiềm năng</li>
+                <li>• An toàn tuyệt đối</li>
+              </ul>
+            </div>
+            <div className="flex space-x-2">
+              <Button variant="outline" onClick={() => setPartnerModalOpen(false)} className="flex-1">
+                Đóng
+              </Button>
+              <Button onClick={handlePartnerRegister} className="flex-1 bg-neon-green text-dark-bg hover:bg-neon-green/90">
+                Đăng ký ngay
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Email Verification Modal */}
+      <Dialog open={emailVerificationOpen} onOpenChange={setEmailVerificationOpen}>
+        <DialogContent className="bg-gradient-card border-border-glow max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-foreground text-center">Xác thực Email</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <p className="text-muted-foreground text-center">
+              Chúng tôi đã gửi mã xác thực đến email của bạn từ <strong>thuongnhanIT</strong>
+            </p>
+            <Input
+              type="text"
+              placeholder="Nhập mã xác thực 6 số"
+              value={verificationCode}
+              onChange={(e) => setVerificationCode(e.target.value)}
+              className="bg-white/5 border-white/10 text-foreground text-center"
+              maxLength={6}
+            />
+            <div className="flex space-x-2">
+              <Button variant="outline" onClick={() => setEmailVerificationOpen(false)} className="flex-1">
+                Hủy
+              </Button>
+              <Button onClick={handleVerifyCode} className="flex-1 bg-neon-green text-dark-bg hover:bg-neon-green/90">
+                Xác thực
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Logout Confirmation */}
+      <AlertDialog open={logoutConfirmOpen} onOpenChange={setLogoutConfirmOpen}>
+        <AlertDialogContent className="bg-gradient-card border-border-glow">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-foreground">Đăng xuất</AlertDialogTitle>
+            <AlertDialogDescription className="text-muted-foreground">
+              Bạn có chắc chắn muốn đăng xuất khỏi tài khoản?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setLogoutConfirmOpen(false)}>
+              Hủy
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={confirmLogout} className="bg-red-500 hover:bg-red-600">
+              OK
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </header>
   );
 };
