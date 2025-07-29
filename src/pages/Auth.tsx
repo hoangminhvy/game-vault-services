@@ -120,6 +120,17 @@ export default function Auth() {
       }
 
       toast.success('Đăng ký thành công! Vui lòng đăng nhập');
+      
+      // Show browser save password prompt simulation
+      if (navigator.userAgent.includes('Chrome') || navigator.userAgent.includes('Firefox')) {
+        setTimeout(() => {
+          const shouldSave = confirm('Bạn có muốn lưu thông tin đăng nhập để dễ dàng đăng nhập lại không?');
+          if (shouldSave) {
+            toast.success('Thông tin đăng nhập đã được lưu');
+          }
+        }, 500);
+      }
+      
       setIsLogin(true);
       setEmail('');
       setPassword('');

@@ -12,9 +12,9 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [partnerModalOpen, setPartnerModalOpen] = useState(false);
-  const [emailVerificationOpen, setEmailVerificationOpen] = useState(false);
-  const [verificationCode, setVerificationCode] = useState('');
-  const [generatedCode, setGeneratedCode] = useState('');
+  const [pinCreationOpen, setPinCreationOpen] = useState(false);
+  const [pin, setPin] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [logoutConfirmOpen, setLogoutConfirmOpen] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -101,103 +101,74 @@ const Header = () => {
       return;
     }
 
-    // Generate random 6-digit code
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
-    setGeneratedCode(code);
+    // Show PIN creation dialog
     setPartnerModalOpen(false);
-    setEmailVerificationOpen(true);
-
-    // Send verification email
-    try {
-      console.log('Sending verification email to:', user.email, 'with code:', code);
-      const { data, error } = await supabase.functions.invoke('send-verification-email', {
-        body: {
-          email: user.email,
-          verificationCode: code
-        }
-      });
-
-      console.log('Response from edge function:', { data, error });
-
-      if (error) {
-        console.error('Error sending email:', error);
-        toast({
-          title: "Lỗi gửi email",
-          description: "Không thể gửi mã xác thực. Vui lòng thử lại.",
-          variant: "destructive",
-        });
-        setEmailVerificationOpen(false);
-        return;
-      }
-
-      toast({
-        title: "Mã xác thực đã được gửi",
-        description: `Vui lòng kiểm tra email ${user.email}`,
-      });
-    } catch (error) {
-      console.error('Error:', error);
-      toast({
-        title: "Lỗi",
-        description: "Có lỗi xảy ra khi gửi email xác thực",
-        variant: "destructive",
-      });
-      setEmailVerificationOpen(false);
-    }
+    setPinCreationOpen(true);
   };
 
-  const handleVerifyCode = async () => {
-    if (verificationCode === generatedCode) {
-      const userData = localStorage.getItem('currentUser');
-      if (userData) {
-        const user = JSON.parse(userData);
-        
-        try {
-          // Update user permission to 2 in database
-          const { error } = await supabase
-            .from('dataname')
-            .update({ maphanquyen: 2 })
-            .eq('email', user.email);
+  const handleCreatePin = async () => {
+    if (pin.length !== 6) {
+      toast({
+        title: "Lỗi",
+        description: "PIN phải có đúng 6 chữ số",
+        variant: "destructive",
+      });
+      return;
+    }
 
-          if (error) {
-            toast({
-              title: "Lỗi",
-              description: "Không thể cập nhật quyền đối tác",
-              variant: "destructive",
-            });
-            return;
-          }
+    const userData = localStorage.getItem('currentUser');
+    if (userData) {
+      const user = JSON.parse(userData);
+      
+      setIsLoading(true);
+      
+      try {
+        // Update user permission to 2 and set PIN in database
+        const { error } = await supabase
+          .from('dataname')
+          .update({ maphanquyen: 2, pin: parseInt(pin) })
+          .eq('email', user.email);
 
+        if (error) {
+          toast({
+            title: "Lỗi",
+            description: "Không thể tạo tài khoản đối tác",
+            variant: "destructive",
+          });
+          setIsLoading(false);
+          return;
+        }
+
+        // Show loading for 6 seconds
+        setTimeout(() => {
           // Update localStorage
-          const updatedUser = { ...user, maphanquyen: 2 };
+          const updatedUser = { ...user, maphanquyen: 2, pin: parseInt(pin) };
           localStorage.setItem('currentUser', JSON.stringify(updatedUser));
           setCurrentUser(updatedUser);
           
-          setEmailVerificationOpen(false);
-          setVerificationCode('');
+          setPinCreationOpen(false);
+          setPin('');
+          setIsLoading(false);
           
           toast({
-            title: "Xác thực thành công",
-            description: "Bạn đã trở thành đối tác. Chuyển hướng đến trang đối tác...",
+            title: "Tạo tài khoản đối tác thành công",
+            description: "Chuyển hướng đến trang đối tác...",
           });
           
           setTimeout(() => {
             navigate('/doi-tac');
           }, 1000);
-        } catch (error) {
-          console.error('Error updating user permission:', error);
-          toast({
-            title: "Lỗi",
-            description: "Có lỗi xảy ra khi cập nhật quyền",
-            variant: "destructive",
-          });
-        }
+        }, 6000);
+        
+      } catch (error) {
+        console.error('Error creating partner account:', error);
+        toast({
+          title: "Lỗi",
+          description: "Có lỗi xảy ra khi tạo tài khoản đối tác",
+          variant: "destructive",
+        });
+        setIsLoading(false);
       }
-    } else {
-      toast({
-        title: "Mã xác thực không đúng",
-        description: "Vui lòng kiểm tra lại mã xác thực",
-        variant: "destructive",
-      });
     }
   };
 
@@ -239,7 +210,7 @@ const Header = () => {
             <a href="#" className="text-foreground hover:text-neon-green transition-colors">
               Nạp tiền
             </a>
-            <button onClick={() => setPartnerModalOpen(true)} className="text-foreground hover:text-neon-green transition-colors">
+            <button onClick={handlePartnerRegister} className="text-foreground hover:text-neon-green transition-colors">
               Đối tác
             </button>
           </nav>
@@ -345,7 +316,7 @@ const Header = () => {
             <a href="#" className="block px-4 py-2 text-foreground hover:text-neon-green hover:bg-white/5 rounded transition-colors">
               Nạp tiền
             </a>
-            <button onClick={() => setPartnerModalOpen(true)} className="block px-4 py-2 text-foreground hover:text-neon-green hover:bg-white/5 rounded transition-colors w-full text-left">
+            <button onClick={handlePartnerRegister} className="block px-4 py-2 text-foreground hover:text-neon-green hover:bg-white/5 rounded transition-colors w-full text-left">
               Đối tác
             </button>
             <div className="px-4 py-2">
@@ -405,32 +376,51 @@ const Header = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Email Verification Modal */}
-      <Dialog open={emailVerificationOpen} onOpenChange={setEmailVerificationOpen}>
+      {/* PIN Creation Modal */}
+      <Dialog open={pinCreationOpen} onOpenChange={setPinCreationOpen}>
         <DialogContent className="bg-gradient-card border-border-glow max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-foreground text-center">Xác thực Email</DialogTitle>
+            <DialogTitle className="text-foreground text-center">Tạo mã PIN cho tài khoản đối tác</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <p className="text-muted-foreground text-center">
-              Chúng tôi đã gửi mã xác thực đến email <strong>{currentUser?.email}</strong>
+              Tạo mã PIN 6 chữ số để bảo mật tài khoản đối tác của bạn
             </p>
             <Input
               type="text"
-              placeholder="Nhập mã xác thực 6 số"
-              value={verificationCode}
-              onChange={(e) => setVerificationCode(e.target.value)}
-              className="bg-white/5 border-white/10 text-foreground text-center"
+              placeholder="Nhập mã PIN 6 chữ số"
+              value={pin}
+              onChange={(e) => {
+                const value = e.target.value.replace(/\D/g, '');
+                if (value.length <= 6) {
+                  setPin(value);
+                }
+              }}
+              className="bg-white/5 border-white/10 text-foreground text-center text-2xl tracking-widest"
               maxLength={6}
             />
             <div className="flex space-x-2">
-              <Button variant="outline" onClick={() => setEmailVerificationOpen(false)} className="flex-1">
+              <Button 
+                variant="outline" 
+                onClick={() => setPinCreationOpen(false)} 
+                className="flex-1"
+                disabled={isLoading}
+              >
                 Hủy
               </Button>
-              <Button onClick={handleVerifyCode} className="flex-1 bg-neon-green text-dark-bg hover:bg-neon-green/90">
-                Xác thực
+              <Button 
+                onClick={handleCreatePin} 
+                className="flex-1 bg-neon-green text-dark-bg hover:bg-neon-green/90"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Đang tạo tài khoản...' : 'Tạo tài khoản'}
               </Button>
             </div>
+            {isLoading && (
+              <div className="text-center text-muted-foreground text-sm">
+                Vui lòng chờ trong 6 giây...
+              </div>
+            )}
           </div>
         </DialogContent>
       </Dialog>
