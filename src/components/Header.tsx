@@ -109,12 +109,15 @@ const Header = () => {
 
     // Send verification email
     try {
+      console.log('Sending verification email to:', user.email, 'with code:', code);
       const { data, error } = await supabase.functions.invoke('send-verification-email', {
         body: {
           email: user.email,
           verificationCode: code
         }
       });
+
+      console.log('Response from edge function:', { data, error });
 
       if (error) {
         console.error('Error sending email:', error);
