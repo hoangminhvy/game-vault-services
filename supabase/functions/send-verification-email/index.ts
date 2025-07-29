@@ -27,7 +27,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Verification code:", verificationCode);
 
     const emailResponse = await resend.emails.send({
-      from: "thuongnhanIT <noreply@resend.dev>",
+      from: "thuongnhanIT <noreply@dioanhdanhit.exenble.com>",
       to: [email],
       subject: "Mã xác thực đối tác - thuongnhanIT",
       html: `
