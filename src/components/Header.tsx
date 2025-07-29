@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const [partnerModalOpen, setPartnerModalOpen] = useState(false);
   const [pinCreationOpen, setPinCreationOpen] = useState(false);
   const [pin, setPin] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -100,8 +101,8 @@ const Header = () => {
       return;
     }
 
-    // Show PIN creation dialog directly
-    setPinCreationOpen(true);
+    // Show partner modal first
+    setPartnerModalOpen(true);
   };
 
   const handleCreatePin = async () => {
@@ -346,6 +347,36 @@ const Header = () => {
         </div>
       </div>
 
+      {/* Partner Modal */}
+      <Dialog open={partnerModalOpen} onOpenChange={setPartnerModalOpen}>
+        <DialogContent className="bg-gradient-card border-border-glow max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-foreground text-center">Đối tác kinh doanh</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 text-center">
+            <div className="space-y-2 text-muted-foreground">
+              <p>Hợp tác kinh doanh tài khoản và các dịch vụ của bạn</p>
+              <ul className="text-sm space-y-1">
+                <li>• Đăng ký dễ dàng</li>
+                <li>• Ưu đãi đặc biệt</li>
+                <li>• Tiếp cận khách hàng tiềm năng</li>
+                <li>• An toàn tuyệt đối</li>
+              </ul>
+            </div>
+            <div className="flex space-x-2">
+              <Button variant="outline" onClick={() => setPartnerModalOpen(false)} className="flex-1">
+                Đóng
+              </Button>
+              <Button onClick={() => {
+                setPartnerModalOpen(false);
+                setPinCreationOpen(true);
+              }} className="flex-1 bg-neon-green text-dark-bg hover:bg-neon-green/90">
+                Đăng ký ngay
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* PIN Creation Modal */}
       <Dialog open={pinCreationOpen} onOpenChange={setPinCreationOpen}>
@@ -389,7 +420,7 @@ const Header = () => {
             </div>
             {isLoading && (
               <div className="text-center text-muted-foreground text-sm">
-                Vui lòng chờ trong 6 giây...
+                Vui lòng chờ trong ít phút...
               </div>
             )}
           </div>
